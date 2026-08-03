@@ -9,3 +9,6 @@ __pycache__/
 
 # 게임 데이터 저장 파일 (사용자마다 점수/퀴즈가 다르고, 과제 기본 상태 유지를 위해 제외)
 state.json
+
+# 커스텀 퀴즈 저장파일
+custom_quizzes.json
