@@ -20,6 +20,7 @@ git commit -m "test: add practice note in practice folder"
 
 
 # 만약 팀과 협업중이라면
+# $ git push origin [branch명]
 # pr 날리고 승인받고 머지될거임
 # 그이후에 메인으로 돌아와서 풀당기기 
 
