@@ -18,6 +18,11 @@ echo "Git branch test contenct" > practice_note.text
 git add "$REPO_ROOT/practice/practice_note.txt"
 git commit -m "test: add practice note in practice folder"
 
+
+# 만약 팀과 협업중이라면
+# pr 날리고 승인받고 머지될거임
+# 그이후에 메인으로 돌아와서 풀당기기 
+
 echo "========= 3. main 브랜치로 복귀 ====="
 git switch main
 
