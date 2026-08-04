@@ -31,11 +31,13 @@ class Quiz:
         return correct
 
     # 퀴즈 출력  
-    def print_quiz(self):
+    def display_quiz(self):
         print(f"Q. {self.question}")
         for choice in self.choices:
             print(choice)
-        print(f"정답 : {self.answer}.{self.choices[int(self.answer) - 1][1:]}")
+        # print(f"정답 : {self.answer}.{self.choices[int(self.answer) - 1][1:]}")
+
+
 
     # 개발 확인용
     def __str__(self):
@@ -99,7 +101,7 @@ if __name__ == "__main__":
 
     # 2.
     print(f"\n==== print_quiz() 메서드 사용 퀴즈 출력 ======")
-    quiz_1.print_quiz()
+    quiz_1.display_quiz()
 
     
     print(f"\n======== 정답확인 ==========")
@@ -109,11 +111,11 @@ if __name__ == "__main__":
 
     # print(f"===== 전체 기본 퀴즈 데이터셋 출력 ==")
     # for i in range(5):
-    #     quiz_{i+1}.print_quiz()
+    #     quiz_{i+1}.display_quiz()
 
 
     print("\n========= 전체 베이스 퀴즈 출력 ======")
     for i, quiz in enumerate(base_quizzes, 1):
         print(f"======= [퀴즈 {i}] 출력 ======")
-        quiz.print_quiz()
+        quiz.display_quiz()
         print()
