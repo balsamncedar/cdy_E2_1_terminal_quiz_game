@@ -1,13 +1,31 @@
 # repository.py
 import json
-from pathlib import Path
 from quiz import Quiz
+from config import SEED_QUIZ_PATH, CUSTOM_QUIZ_PATH, STATE_PATH
+
 
 class QuizRepository:
-    def __init__(self, seed_path="data/seed_quizzes.json", custom_path="data/custom_quizzes.json"):
-        self.seed_path = Path(seed_path)
-        self.custom_path = Path(custom_path)
+    def __init__(self, seed_path=SEED_QUIZ_PATH, custom_path=CUSTOM_QUIZ_PATH, state_path=STATE_PATH):
+        self.seed_path = seed_path
+        self.custom_path = custom_path
+        self.state_path = state_path
+
+        self.best_score = 0.0
         self.quizzes = []
+
+        self.load_state()
+
+    def load_state(self):
+        print("**")
+        if self.state_path.exists():
+            print("# ")
+            try:
+                with open(self.state_path, "r", encoding="utf-8") as f: 
+                    data = json.load(f)
+                    self.best_score = data.get("best_score", 0.0)
+            except json.JSONDecodeError:
+                self.best_sccore = 0.0
+        print(">>>")
         self.load_quizzes()
 
     def _load_json(self, filepath):
@@ -38,7 +56,6 @@ class QuizRepository:
     def add_custom_quiz(self, question, choices, answer):
         "새로운 커스텀 퀴즈 추가 및 custom_quizzes.json 에 영구 저장"
 
-
         # 0. 퀴즈 중복 여부 확인
         for existing_quiz in self.quizzes :
             if existing_quiz.question == question:
@@ -67,5 +84,25 @@ class QuizRepository:
 
         return True
 
+    def save_state(self, best_score):
+        self.best_score = best_score
+
+        quizzes_data = [
+            {
+                "question" : q.question,
+                "choices" : q.choices,
+                "answer" : q.answer
+            }
+            for q in self.quizzes
+        ]
+
+        state_data= {
+            "quizzes": quizzes_data, 
+            "best_score": self.best_score
+        }
+
+        self.state_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.state_path, "w", encoding="utf-8") as f:
+            json.dump(state_data, f, ensure_ascii=False, indent= 4)
         
     
