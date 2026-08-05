@@ -16,15 +16,13 @@ class QuizRepository:
         self.load_state()
 
     def load_state(self):
-        print("**")
         if self.state_path.exists():
-            print("# ")
             try:
                 with open(self.state_path, "r", encoding="utf-8") as f: 
                     data = json.load(f)
                     self.best_score = data.get("best_score", 0.0)
             except json.JSONDecodeError:
-                self.best_sccore = 0.0
+                self.best_score = 0.0
         print(">>>")
         self.load_quizzes()
 

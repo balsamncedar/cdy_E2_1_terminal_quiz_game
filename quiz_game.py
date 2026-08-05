@@ -31,16 +31,12 @@ class QuizGame:
                     print("퀴즈 풀기 선택")
                 elif choice == "2":
                     print("퀴즈 추가 선택")
-                    break;
                 elif choice == "3":
                     print("퀴즈 추가 선택")
-                    break;
                 elif choice == "4":
                     print("점수 확인 선택")
-                    break;
                 elif choice == "5":
                     print("프로그램 종료 선택 ")
-                    break;
                 else:
                     print("⚠️  잘못된 입력입니다. 1 ~ 5 번 중 선택해주세요. ")
 
@@ -68,8 +64,8 @@ class QuizGame:
 
         choices = []
         print("👉 4개의 보기(선택지)를 차례대로 입력해주세요.")
-        for i in range(1,5):
-            choice = input(f"선택지{i}: {choices[i - 1]}")
+        for i, choice in enumerate(choices, 1):
+            choice = input(f"선택지{i}: {choice}")
             if not choice:
                 print("⚠️ 보기는 필수값입니다. 취소합니다.")
                 return

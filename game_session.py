@@ -20,7 +20,7 @@ class GameSession:
         print(f"📝 퀴즈를 시작합니다! (총 {total_quiz_count} 문제)")
         print("-"* WIDTH)
 
-        for i, quiz in enumerate(self.quizzezs, 1):
+        for i, quiz in enumerate(self.quizzes, 1):
             print(f"[문제 {i}]")
             quiz.display_quiz()
 
