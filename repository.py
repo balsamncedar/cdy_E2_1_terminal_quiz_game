@@ -18,12 +18,11 @@ class QuizRepository:
     def load_state(self):
         if self.state_path.exists():
             try:
-                with open(self.state_path, "r", encoding="utf-8") as f: 
+                with open(self.state_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     self.best_score = data.get("best_score", 0.0)
             except json.JSONDecodeError:
                 self.best_score = 0.0
-        print(">>>")
         self.load_quizzes()
 
     def _load_json(self, filepath):
@@ -50,6 +49,7 @@ class QuizRepository:
             )
 
             self.quizzes.append(quiz)
+
 
     def add_custom_quiz(self, question, choices, answer):
         "새로운 커스텀 퀴즈 추가 및 custom_quizzes.json 에 영구 저장"
@@ -82,6 +82,10 @@ class QuizRepository:
 
         return True
 
+
+    def get_all_quizes(self):
+        return self.quizzes
+
     def save_state(self, best_score):
         self.best_score = best_score
 
@@ -103,4 +107,6 @@ class QuizRepository:
         with open(self.state_path, "w", encoding="utf-8") as f:
             json.dump(state_data, f, ensure_ascii=False, indent= 4)
         
-    
+
+    def get_best_score(self):
+        return self.best_score

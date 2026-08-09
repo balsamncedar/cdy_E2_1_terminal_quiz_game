@@ -25,23 +25,26 @@ class Quiz:
         correct_answer = str(self.answer).strip()
 
         correct = user_answer == correct_answer
-        result_msg = "👌 정답!" if correct else "❌ 땡!"
-        print(result_msg)
+        # result_msg = "정답!" if correct else "땡!"
+        # print(result_msg)
 
         return correct
 
-    # 퀴즈 출력  
-    def display_quiz(self):
-        print(f"Q. {self.question}")
-        for choice in self.choices:
-            print(choice)
-        # print(f"정답 : {self.answer}.{self.choices[int(self.answer) - 1][1:]}")
+
+    def to_lines(self):
+        lines = [f"Q. {self.question}"]
+        for idx, choice in enumerate(self.choices, start=1):
+            lines.append(f"{idx}.{choice}")
+        return lines
 
 
 
     # 개발 확인용
     def __str__(self):
         return f"<Quiz 객체> : {self.question}"
+
+
+
 
 
 # === 테스트 실행부 ===
