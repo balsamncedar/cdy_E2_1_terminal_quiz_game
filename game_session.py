@@ -31,10 +31,30 @@ class GameSession:
         
 
     def run_single_quiz(self, quiz):
-        user_input = input("정답을 입력하세요: ").strip()
+        while True:
+            choice_text = input("정답을 입력하세요: ").strip()
 
-        if quiz.check_answer(user_input) :
+            if not choice_text:
+                print("정답은 필수로 입력하셔야합니다.")
+                continue
+
+            try:
+                choice_number = int(choice_text)
+            except ValueError:
+                print("숫자를 입력해주세요.")
+                continue
+
+            if choice_number < 1 or choice_number > 4 : 
+                print("1부터 4 사이의 숫자를 입력해주세요.")
+                continue
+            break       
+
+        if quiz.check_answer(choice_number) :
             self.correct_count += 1 
+            print("정답입니다!")
+
+        else:
+            print("오답입니다!")
 
     def calculate_score(self, total_quiz_count):
         self.score = (self.correct_count / total_quiz_count) * 100

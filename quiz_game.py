@@ -46,7 +46,7 @@ class QuizGame:
             print("\nCtrl + C 입력, 메인 메뉴 프로그램 종료. ")
 
     def play_quiz(self):
-        session = GameSession(self.repository)
+        session = GameSession(self.repository.quizzes)
         final_score = session.start(self.display_quiz)
 
         if final_score is None:
@@ -63,31 +63,50 @@ class QuizGame:
 
     def add_quiz(self):
         print(" 새로운 퀴즈를 추가합니다. ")
-        question = input("문제를 입력하세요: ").strip()
-        if not question:
-            print("[주의] 질문은 필수값입니다. 메인 메뉴로 돌아갑니다.")
-            return
+        while True:
+            question = input("문제를 입력하세요: ").strip()
+            if not question:
+                print("[주의] 질문은 필수값입니다. 다시 입력해주세요.")
+                continue
+            break
 
+        
         choices = []
         print("4개의 보기(선택지)를 차례대로 입력해주세요.")
         for i in range(1, 5):
-            choice = input(f"선택지{i}: ").strip()
-            if not choice:
-                print("[주의] 보기는 필수값입니다. 취소합니다.")
-                return
-            choices.append(choice)
+            while True:
+                choice = input(f"선택지{i}: ").strip()
+                if not choice:
+                    print("[주의] 보기는 필수값입니다. 다시 입력해주세요.")
+                    continue
+                choices.append(choice)
+                break  
 
-        answer = input("정답 번호를 입력하세요 (1 ~ 4 중 하나): ").strip()
-        if answer not in ["1", "2", "3", "4"]:
-            print("[주의] 정답은 1부터 4 사이의 숫자여야 합니다. 취소합니다.")
-            return
+        while True:
+            correct_choice_text = input("정답 번호를 입력하세요 (1 ~ 4 중 하나): ").strip()
 
-        success = self.repository.add_custom_quiz(question, choices, answer)
+            if not correct_choice_text:
+                print("정답 번호는 필수입니다.")
+                continue
+            
+            try:
+                correct_choice_number = int(correct_choice_text)
+            except ValueError:
+                print("숫자를 입력해주세요")
+                continue
+
+            if correct_choice_number < 1 or correct_choice_number > 4 :
+                print("1부터 4사이의 숫자를 입력해주세요.")
+                continue
+
+            break
+
+        success = self.repository.add_quiz(question, choices, correct_choice_number)
 
         if success:
-            print(" 퀴즈가 추가되었습니다! ")
+            print("퀴즈가 추가되었습니다! ")
         else:
-            print("퀴즈 추가에 실패했습니다.")
+            print("이미 동일한 질문의 퀴즈가 존재합니다.")
 
     def display_quiz_list(self):
         print("\n [등록된 퀴즈 목록]")
@@ -97,10 +116,9 @@ class QuizGame:
             print("등록된 퀴즈가 없습니다.")
             return
 
-        for quiz in quizzes:
-            for i, quiz.question in quiz:
-                print(f"{i}. {quiz.question}")
-    
+        for i, quiz in enumerate(quizzes, start=1):
+            print(f"{i}. {quiz.question}")
+
 
     def display_quiz(self, quiz):
         for line in quiz.to_lines():
