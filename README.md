@@ -4,6 +4,7 @@
 
 Python 3.10 이상에서 외부 라이브러리 없이 실행되는 4지선다 콘솔 퀴즈 게임입니다. 메뉴에서 퀴즈 풀기, 새 퀴즈 등록, 목록 조회, 최고 점수 확인을 할 수 있으며 사용자 데이터는 JSON 파일에 계속 보관됩니다.
 
+
 ## 퀴즈 주제와 선정 이유
 
 주제는 Formula 1(F1)입니다. 드라이버, 팀, 그랑프리처럼 서로 연결된 소재가 풍부하고 정답이 명확하여 4지선다 퀴즈로 구성하기 좋다는 점에서 선택했습니다. 기본 F1 퀴즈 5개가 포함되어 있습니다.
@@ -12,11 +13,28 @@ Python 3.10 이상에서 외부 라이브러리 없이 실행되는 4지선다 �
 
 필요 환경은 Python 3.10 이상입니다. 프로젝트 루트에서 다음 명령을 실행합니다.
 
+* 개발 환경 설정 스크린샷 
+![dev env configruartion screenshot](./images/dev-env.png)
+
+
+
 ```bash
 python3 main.py
 ```
 
 화면에 표시되는 1~5번 메뉴를 숫자로 선택합니다. 입력 앞뒤 공백은 자동으로 제거되며, 빈 입력·문자·범위를 벗어난 숫자는 안내 후 다시 입력받습니다. 실행 중 `Ctrl+C` 또는 입력 종료가 발생해도 가능한 데이터를 저장한 뒤 안전하게 종료합니다.
+
+## 프로그램 실행 화면 (퀴즈 풀기 실행 및 메뉴)
+
+- 퀴즈 메뉴 조회 퀴즈 풀기, 점수확인
+![display menu and solve quiz](./images/quiz-menu-and-solving.png)
+
+- 퀴즈 추가 및 퀴즈 목록 조회
+![add quiz and display quiz list](./images/add-quiz.png)
+![double check the quiz ](./images/after-add-quiz-double-check-in-state-json-file.png)
+
+- 최고 점수 확인
+![best score](./images/after-solve-quiz-again-and-update-the-best-score.png)
 
 
 ## 테스트
@@ -165,6 +183,7 @@ classDiagram
 ```
 
 `best_score`는 아직 플레이하지 않았을 때 `null`, 플레이 후에는 0~100 사이의 점수입니다. `state.json`은 사용자별 실행 데이터이므로 `.gitignore`에 포함됩니다.
+
 
 ## Git 실습 확인
 
