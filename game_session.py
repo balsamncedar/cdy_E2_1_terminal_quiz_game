@@ -1,7 +1,3 @@
-import json
-from pathlib import Path
-
-
 class GameSession:
     def __init__(self, quizzes):
         self.quizzes = quizzes
@@ -10,8 +6,7 @@ class GameSession:
 
     # main.py 에 남아있는거 가져와서 향후 추가
     def start(self, render_quiz):
-        WIDTH = 40
-        #  갯수 확인 추가해야함 
+        width = 40
         total_quiz_count = len(self.quizzes)
 
         # 기본 data 넣어주면 걸릴일 없긴함. 처리해야할듯.
@@ -20,7 +15,7 @@ class GameSession:
             return
 
         print(f"퀴즈를 시작합니다! (총 {total_quiz_count} 문제)")
-        print("-"* WIDTH)
+        print("-" * width)
 
         for quiz in self.quizzes:
             render_quiz(quiz)
@@ -32,7 +27,7 @@ class GameSession:
 
     def run_single_quiz(self, quiz):
         while True:
-            choice_text = input("정답을 입력하세요: ").strip()
+            choice_text = input("정답을 입력하세요 (1-4): ").strip()
 
             if not choice_text:
                 print("정답은 필수로 입력하셔야합니다.")
@@ -44,17 +39,16 @@ class GameSession:
                 print("숫자를 입력해주세요.")
                 continue
 
-            if choice_number < 1 or choice_number > 4 : 
+            if not 1 <= choice_number <= 4:
                 print("1부터 4 사이의 숫자를 입력해주세요.")
                 continue
             break       
 
-        if quiz.check_answer(choice_number) :
-            self.correct_count += 1 
+        if quiz.check_answer(choice_number):
+            self.correct_count += 1
             print("정답입니다!")
-
         else:
-            print("오답입니다!")
+            print(f"오답입니다! 정답은 {quiz.answer}번입니다.")
 
     def calculate_score(self, total_quiz_count):
         self.score = (self.correct_count / total_quiz_count) * 100
