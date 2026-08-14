@@ -5,18 +5,18 @@ from game_session import GameSession
 class QuizGame:
     def __init__(self, repository):
         self.repository = repository
-        self.WIDTH = 40
+        self.width = 40
 
     def display_menu(self):
-        print("=" * self.WIDTH)
+        print("=" * self.width)
         print("          [ 나만의 퀴즈 게임 ]           ")
-        print("=" * self.WIDTH)
+        print("=" * self.width)
         print("    1. 퀴즈 풀기  ")
         print("    2. 퀴즈 추가  ")
         print("    3. 퀴즈 목록  ")
         print("    4. 점수 확인  ")
         print("    5. 종료  ")
-        print("=" * self.WIDTH)
+        print("=" * self.width)
 
     def run(self):
         try:
@@ -37,13 +37,15 @@ class QuizGame:
                     print("점수 확인 선택")
                     self.check_score()
                 elif choice == "5":
-                    print("프로그램 종료 선택 ")
+                    self.repository.save_state()
+                    print("게임을 종료합니다.")
                     break
                 else:
                     print("[주의] 잘못된 입력입니다. 1 ~ 5 번 중 선택해주세요. ")
 
-        except KeyboardInterrupt:
-            print("\nCtrl + C 입력, 메인 메뉴 프로그램 종료. ")
+        except (KeyboardInterrupt, EOFError):
+            print("\n[안내] 입력이 중단되어 게임을 안전하게 종료합니다.")
+            self.repository.save_state()
 
     def play_quiz(self):
         session = GameSession(self.repository.quizzes)
@@ -52,14 +54,17 @@ class QuizGame:
         if final_score is None:
             return
 
-        print("="* self.WIDTH)
-        print(f"결과: {len(session.quizzes)} 중 {session.correct_count} 정답! ({session.score})점")
+        print("=" * self.width)
+        print(f"결과: {len(session.quizzes)}문제 중 {session.correct_count}문제 정답! ({session.score}점)")
 
         previous_best = self.repository.best_score
-        if final_score > previous_best:
+        if previous_best is None or final_score > previous_best:
             self.repository.best_score = final_score
-            self.repository.save_state(self.repository.best_score)
-            print(f"신기록 달성! 기존 최고점({previous_best}점) -> 새 최고점({final_score}점)")
+            self.repository.save_state()
+            if previous_best is None:
+                print(f"첫 기록이 저장되었습니다: {final_score}점")
+            else:
+                print(f"신기록 달성! 기존 최고점({previous_best}점) -> 새 최고점({final_score}점)")
 
     def add_quiz(self):
         print(" 새로운 퀴즈를 추가합니다. ")
@@ -106,7 +111,7 @@ class QuizGame:
         if success:
             print("퀴즈가 추가되었습니다! ")
         else:
-            print("이미 동일한 질문의 퀴즈가 존재합니다.")
+            print("동일한 질문이 있거나 저장에 실패하여 퀴즈를 추가하지 못했습니다.")
 
     def display_quiz_list(self):
         print("\n [등록된 퀴즈 목록]")
@@ -125,4 +130,8 @@ class QuizGame:
                 print(line)
 
     def check_score(self):
-        print(f"현재 최고 점수: {self.repository.get_best_score()}점")
+        best_score = self.repository.get_best_score()
+        if best_score is None:
+            print("아직 퀴즈를 푼 기록이 없습니다.")
+        else:
+            print(f"현재 최고 점수: {best_score}점")
