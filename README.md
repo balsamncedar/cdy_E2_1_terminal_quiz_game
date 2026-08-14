@@ -82,6 +82,8 @@ flowchart TD
 ├── config.py                # 데이터 파일 경로
 ├── data/
 │   └── seed_quizzes.json    # 첫 실행/복구용 기본 F1 퀴즈 5개
+├── images/
+│   └── git-log.png          # 깃 로그 이미지 
 ├── tests/                   # 자동 테스트
 └── state.json               # 실행 시 생성되는 사용자 상태(커밋 제외)
 ```
@@ -172,6 +174,9 @@ classDiagram
 python3 --version
 git log --oneline --graph --all
 ```
+
+![result of git log --oneline --graph after merge](./images/git-log.png)
+
 
 또한 GitHub 저장소 URL, 개발 환경, 퀴즈 추가·목록·플레이·점수 화면을 제출 자료에 포함합니다. 개발 완료 후 별도 디렉터리에 저장소를 `clone`하고 README 한 줄을 수정해 commit/push한 다음, 원래 디렉터리에서 `pull`하여 반영을 확인합니다.
 
