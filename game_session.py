@@ -4,12 +4,10 @@ class GameSession:
         self.correct_count = 0
         self.score = 0.0
 
-    # main.py 에 남아있는거 가져와서 향후 추가
     def start(self, render_quiz):
         width = 40
         total_quiz_count = len(self.quizzes)
 
-        # 기본 data 넣어주면 걸릴일 없긴함. 처리해야할듯.
         if not self.quizzes:
             print("현재 풀 수 있는 퀴즈가 없습니다. 퀴즈를 추가해주세요!")
             return

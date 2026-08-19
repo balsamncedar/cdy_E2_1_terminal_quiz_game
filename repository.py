@@ -9,7 +9,6 @@ from config import STATE_PATH
 
 class QuizRepository:
     def __init__(self,  state_path=STATE_PATH):
-        # self.seed_path = Path(seed_path)
         self.state_path = Path(state_path)
         self.best_score = None
         self.quizzes = []
@@ -43,7 +42,6 @@ class QuizRepository:
     def _restore_defaults(self, message):
         print(f"[안내] {message}")
         try:
-            # seed_data = self._read_json(self.seed_path)
             seed_data = [
                 {
                     "question" : "루이스 해밀턴(Lewis Hamilton)이 오랜 기간 몸담았던 메르세데스를 떠나, 2025시즌부터 새롭게 둥지를 튼 팀은 어디일까요?", 
