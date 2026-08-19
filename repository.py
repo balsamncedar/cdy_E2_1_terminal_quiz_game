@@ -4,12 +4,12 @@ from pathlib import Path
 import os
 
 from quiz import Quiz
-from config import SEED_QUIZ_PATH, STATE_PATH
+from config import STATE_PATH
 
 
 class QuizRepository:
-    def __init__(self, seed_path=SEED_QUIZ_PATH, state_path=STATE_PATH):
-        self.seed_path = Path(seed_path)
+    def __init__(self,  state_path=STATE_PATH):
+        # self.seed_path = Path(seed_path)
         self.state_path = Path(state_path)
         self.best_score = None
         self.quizzes = []
@@ -119,9 +119,9 @@ class QuizRepository:
         temp_path = self.state_path.with_suffix(".tmp")
 
         try:
-            self.state_path.parents.mkdir(parents=True, exist_ok=True)
+            self.state_path.parent.mkdir(parents=True, exist_ok=True)
 
-            with self.temp_path.open("w", encoding="utf-8") as file:
+            with temp_path.open("w", encoding="utf-8") as file:
                 json.dump(state_data, file, ensure_ascii=False, indent=4)
 
             os.replace(temp_path, self.state_path)
